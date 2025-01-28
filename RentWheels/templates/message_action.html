@@ -1,0 +1,10 @@
+{% if session['role']== "admin" %}
+    {% include 'ahead.html' %}
+{% elif session['role']== "car_owner" %}
+    {% include 'chead.html' %}
+{% elif session['role']== "customer" %}
+    {% include 'cu_head.html' %}
+{% endif %}
+<div class="h1 text-center mt-100">
+    {{message}}
+</div>

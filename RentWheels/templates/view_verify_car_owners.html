@@ -1,0 +1,55 @@
+{% include 'ahead.html' %}
+
+<body>
+    <div class="table-wrapper">
+        <h1 class="heading">Verify Car Owner Details</h1>
+        <div class="table-wrapper">
+            <table class="owner-table">
+                <thead>
+                    <tr>
+                        <th>Owner</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Zip Code</th>
+                        <th>Status</th>
+                        <th>Location ID</th>
+                        <th>Actions</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for car_owner in car_owners %}
+                    {% set location = get_location_by_location_id(car_owner['location_id'])%}
+                        <tr>
+                            <td>{{car_owner['first_name']}} {{car_owner['last_name']}}</td>
+                            <td>{{car_owner['email']}}</td>
+                            <td>{{car_owner['phone']}}</td>
+                            <td>{{car_owner['state']}}</td>
+                            <td>{{car_owner['city']}}</td>
+                            <td>{{car_owner['zip_code']}}</td>
+                            <td>{{car_owner['status']}}</td>
+                            <td>{{location['location_name']}}</td>
+                            <td class="">
+                                {% if car_owner['status'] == 'Not Verified' %}
+                                    <form action="verify_car_owner">
+                                        <input type="hidden" name="car_owner_id" value="{{car_owner['_id']}}">
+                                        <button class="verify-button">Approve</button>
+                                    </form>
+                                {% endif %}
+                                {% if car_owner['status'] == 'Verified' %}
+                                    <form action="de_verify_car_owner">
+                                        <input type="hidden" name="car_owner_id" value="{{car_owner['_id']}}">
+                                        <button class="deverify-button">Disapprove</button>
+                                    </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

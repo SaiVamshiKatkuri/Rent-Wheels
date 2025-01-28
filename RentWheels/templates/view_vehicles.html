@@ -1,0 +1,57 @@
+{% if session['role']== "admin" %}
+    {% include 'ahead.html' %}
+{% elif session['role']== "car_owner" %}
+    {% include 'chead.html' %}
+{% endif %}
+<body>
+        <h1 class="heading">Available Cars</h1>
+        <div class="row space-around">
+
+        {% for car in cars %}
+                                {% set location = get_location_by_id(car['location_id'])%}
+
+            <div class="card w-30">
+                <div class="cars-grid">
+                    <div class="car-card">
+                        <img src="../static/added_cars/{{car['image']}}" alt="Car Image" class="car-image">
+                        <div class="car-details">
+                            <h2>{{ car.vehicle_name }}</h2>
+                            <h2>Location : {{ location.location_name }}</h2>
+                            <p><strong>Vehicle Type:</strong> {{ car.vehicle_type }}</p>
+
+                            <p><strong>VIN:</strong> {{ car.vin_number }}</p>
+                            <p><strong>Make:</strong> {{ car.make }}</p>
+                            <p><strong>Model:</strong> {{ car.model }}</p>
+                            <p><strong>Color:</strong> {{ car.color }}</p>
+                            <p><strong>Car Mileage:</strong> {{ car.car_mileage }}</p>
+                            <p><strong>Year:</strong> {{ car.year }}</p>
+                            <p><strong>Rent per Day:</strong> ${{ car.rent_per_day }}</p>
+                            <p><strong>EV / Gas Levels:</strong> {{ car.ev_gas_levels }}</p>
+                            <p><strong>Insurance per Day:</strong> ${{ car.insurance }}</p>
+                            <p><strong>Security Deposit:</strong> ${{ car.security_deposit }}</p>
+                             <p><strong>Status:</strong> {{ car.status }}</p>
+                            {% if session['role']== "admin" %}
+                                {% if car['status'] == "Not Approved" %}
+                                    <form action="approve_cars">
+                                        <input type="hidden" name="vehicle_id" value="{{car['_id']}}">
+                                        <button class="add-button">Approved</button>
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                            {% if session['role']== "customer" %}
+                                {% if car['status'] == "Approved" %}
+                                    <form action="book_cars">
+                                        <input type="hidden" name="vehicle_id" value="{{car['_id']}}">
+                                        <button class="add-button">Book Car</button>
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+    {% endfor %}
+                    </div>
+
+</body>

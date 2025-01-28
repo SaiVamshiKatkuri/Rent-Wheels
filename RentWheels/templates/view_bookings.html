@@ -1,0 +1,159 @@
+{% if session['role']== "admin" %}
+    {% include 'ahead.html' %}
+{% elif session['role']== "car_owner" %}
+    {% include 'chead.html' %}
+{% elif session['role']== "customer" %}
+    {% include 'cu_head.html' %}
+{% endif %}
+
+<body>
+    <div class="card p-5">
+        <h1 class="heading">Bookings</h1>
+        <div class="table-wrapper">
+            <table class="owner-table">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Booked Date</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Total Amount</th>
+                        <th>Status</th>
+                        <th>License Number</th>
+                        <th>Owner ID</th>
+                        <th>EV/Gas Levels</th>
+                        <th>Vehicle ID</th>
+                        <th>Actions</th>
+                        {% if session['role'] =='admin'%}
+                            <th>Admin Commission</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    {% set customer=get_customer_by_customer_id(booking['customer_id']) %}
+                    {% set car_owner=get_car_owner_by_car_owner_id(booking['car_owner_id']) %}
+                    {% set car=get_car_by_car_id(booking['vehicle_id']) %}
+                        {% set is_paid = is_paid_by_customer(booking['_id']) %}
+                        <tr class="location-item">
+                            <td>{{customer['first_name']}}</td>
+                            <td>{{booking['booking_date'].strftime("%d-%m-%Y")}}</td>
+                            <td>{{booking['start_date_time'].strftime("%d-%m-%Y")}}</td>
+                            <td>{{booking['end_date_date'].strftime("%d-%m-%Y")}}</td>
+                            <td>${{booking['total_amount']}}</td>
+                            <td>{{booking['status']}}</td>
+                            <td>{{customer['license_number']}}</td>
+                            <td>{{car_owner['first_name']}}</td>
+                            <td>{{booking['ev_gas_levels']}}</td>
+                            <td>{{car['vehicle_name']}}</td>
+                            {% if session['role'] =='car_owner'%}
+                             {% if booking['status'] == "Return Request Accepted" %}
+                                  <td>  <div class="booking-actions">
+                                        <form action="/pay_remaining_amount">
+                                            <input type="hidden" name="booking_id" value="{{booking['_id']}}">
+                                            <button type="submit" class="verify-button">Charge Remaining Amount</button>
+                                        </form>
+                                    </div></td>
+                                {% endif %}
+                                {% if booking['status'] == "Requested" %}
+                                <td>
+                                    <div class="booking-actions">
+                                            <form action="/accept_booking_action">
+                                                <input type="hidden" name="booking_id" value="{{booking['_id']}}">
+                                                <button type="submit" class="verify-button">Accept</button>
+                                            </form>
+                                            <form action="/reject_booking_action">
+                                                <input type="hidden" name="booking_id" value="{{booking['_id']}}">
+                                                <button type="submit" class="deverify-button">Reject</button>
+                                            </form>
+                                    </div>
+                                </td>
+                                {% endif %}
+                                {% if booking['status'] == "verified  " %}
+                                   <td> <div class="booking-actions">
+                                        <form action="/handover_to_customer">
+                                            <input type="hidden" name="booking_id" value="{{booking['_id']}}">
+                                            <button type="submit" class="verify-button">Handover To Customer</button>
+                                        </form>
+                                    </div>
+                                   </td>
+                                {% endif %}
+                                {% if booking['status'] == "Return Requested" %}
+                                    <td><div><form action="/extra_charges_action">
+                                        <input type="hidden" name="booking_id" value="{{booking['_id']}}">
+                                        <button type="submit" class="verify-button">Process Return</button>
+                                   </form></div> </td>
+                                {% endif %}
+                             {% if booking['status'] == "Booked" %}
+                                    <td><div><form action="/verified">
+                                        <input type="hidden" name="booking_id" value="{{booking['_id']}}">
+                                        <button type="submit" class="verify-button">Verify Customer</button>
+                                   </form></div> </td>
+                                {% endif %}
+<!--                            {% if booking['status'] == "Total Amount Paid" %}-->
+<!--                                    <td><div><form action="/drop_customer">-->
+<!--                                        <input type="hidden" name="booking_id" value="{{booking['_id']}}">-->
+<!--                                        <button type="submit" class="verify-button">Drop Customer</button>-->
+<!--                                   </form></div> </td>-->
+<!--                                {% endif %}-->
+                                {% if booking['status'] == "Total Amount Paid" %}
+                                    <td><div><form action="/drop_customer_action">
+                                        <input type="hidden" name="booking_id" value="{{booking['_id']}}">
+                                        <button type="submit" class="verify-button">Drop Customer</button>
+                                   </form></div> </td>
+                                {% endif %}
+                            {% endif %}
+                            {% if session['role'] == 'customer' %}
+                                {% if booking['status'] == "Requested" %}
+                                   <td> <div class="cancel-actions">
+                                        <form action="/cancel_actions">
+                                            <input type="hidden" name="booking_id" value="{{booking['_id']}}">
+                                            <button type="submit" class="deverify-button">Cancel</button>
+                                        </form>
+                                    </div>
+                                   </td>
+                                {% endif %}
+                                {% if booking['status'] == "Request Accepted" %}
+                                   <td> <div class="cancel-actions">
+                                        <form action="/payment">
+                                            <input type="hidden" name="booking_id" value="{{booking['_id']}}">
+                                            <button type="submit" class="deverify-button">Pay Advance</button>
+                                        </form>
+                                    </div>
+                                   </td>
+                                {% endif %}
+                                {% if booking['status'] == "Handover To Customer" %}
+                                   <td> <div class="booking-actions">
+                                        <form action="/return_request_action">
+                                            <input type="hidden" name="booking_id" value="{{booking['_id']}}">
+                                            <button type="submit" class="verify-button">Return Request</button>
+                                        </form>
+                                    </div>
+                                   </td>
+                                {% endif %}
+
+                                {% if booking['status'] == "Drop Customer" %}
+                                  <td>
+                                      <div class="booking-actions">
+                                        <form action="/give_review_rating">
+                                            <input type="hidden" name="booking_id" value="{{booking['_id']}}">
+                                            <button type="submit" class="verify-button">Give Rating</button>
+                                        </form>
+                                      </div>
+                                  </td>
+                                {% endif %}
+                            {% endif %}
+                            {% if is_paid %}
+                               <td> <div class=""><a class="btn h6" href="view_payments?booking_id={{booking['_id']}}">View Payments</a></div></td>
+                            {% endif %}
+                            {% if session['role'] =='admin'%}
+                                <td> ${{booking['admin_commission']}}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

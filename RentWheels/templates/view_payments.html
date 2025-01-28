@@ -1,0 +1,53 @@
+{% if session['role']== "admin" %}
+    {% include 'ahead.html' %}
+{% elif session['role']== "car_owner" %}
+    {% include 'chead.html' %}
+{% elif session['role']== "customer" %}
+    {% include 'cu_head.html' %}
+{% endif %}
+<div class="text-around location-bg-color">
+    <div class="text-center h3">View Payments</div>
+        {% for payment in payments %}
+            <div class="card mt-20 w-60 p-5 ml-300">
+                <div class="row mt-10">
+                    {% if session ['role'] =="customer" %}
+                        <div class="w-45">
+                            <div>Card Type: {{payment['card_type']}}</div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="row mt-10">
+                    {% if session ['role'] =="customer" %}
+                        <div class="w-45">
+                            <div>Card Number: {{payment['card_number']}}</div>
+                        </div>
+                     {% endif %}
+                    <div class="w-45">
+                        <div>Holder Name: {{payment['card_holder_name']}}</div>
+                    </div>
+                </div>
+                <div class="row mt-10">
+                    {% if session ['role'] =="customer" %}
+                        <div class="w-30">
+                            <div>Expiry Date: {{payment['expiry_date']}}</div>
+                        </div>
+                        <div class="w-30">
+                            <div>CVV: {{payment['cvv']}}</div>
+                        </div>
+                     {% endif %}
+                    <div class="w-30">
+                        <div>Amount: $ {{payment['payment_amount']}}</div>
+                    </div>
+                </div>
+                <div class="row mt-10">
+                    <div class="w-45">
+                        {% if payment['status']=='Amount Refunded'%}
+                        <div>Status: <b style="color:red">{{payment['status']}}</b></div>
+                        {% else%}
+                        <div>Status: {{payment['status']}}</div>
+                        {% endif%}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+</div>

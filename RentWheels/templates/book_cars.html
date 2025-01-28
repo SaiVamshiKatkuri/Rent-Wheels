@@ -1,0 +1,27 @@
+{% include 'cu_head.html' %}
+<div class="card">
+    <form action="book_insurance_action">
+        <div class="row ml-50">
+           <label for="from-date-time">From:</label>
+           <input class="w-20 form-input" type="date" id="from-date-time" value="{{from_date_time}}" name="from_date_time" required>
+        </div>
+        <div class="row ml-50">
+           <label for="to-date-time" class="ml-20">To:</label>
+           <input class="w-20 form-input" type="date" id="to-date-time" value="{{to_date_time}}" name="to_date_time" required>
+        </div>
+
+
+        <input type="hidden" name="vehicle_id" value="{{vehicle_id}}">
+        <input type="hidden" name="car_owner_id" value="{{car_owner_id}}">
+        <input type="hidden" name="rent_per_day" value="{{rent_per_day}}">
+        <input type="hidden" name="ev_gas_levels" value="{{ev_gas_levels}}">
+        <input type="hidden" name="insurance_amount" value="{{insurance_amount}}">
+        <label for="insurance" class="">Insurance : $ {{insurance_amount}}</label>
+        <select id="insurance" name="insurance" class="form-input w-100 p-5x" required>
+            <option value="">Choose Insurance</option>
+            <option value="Required">Required</option>
+            <option value="Not Required">Not Required</option>
+        </select>
+        <button class="add-button w-50">Book Car</button>
+    </form>
+</div>

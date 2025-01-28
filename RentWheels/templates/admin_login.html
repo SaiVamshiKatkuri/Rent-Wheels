@@ -1,0 +1,18 @@
+{% include 'head.html' %}
+<div class="bg-main-1">
+    <div>.</div>
+    <div class="card p-20 w-25 mt-200 ml-1070">
+        <h1 class="text-center">Admin Login</h1>
+        <form action="admin_login_action" method="POST">
+            <div>
+                <div>Username</div>
+                <div><input class="form-input p-10px" type="text" name="username" placeholder="Username" required></div>
+            </div>
+            <div class="mt-10">
+                <div>Password</div>
+                <input type="password" class="form-input p-10px" name="password" placeholder="Password" required>
+            </div>
+            <button class="btn h6" type="submit">Login</button>
+        </form>
+    </div>
+</div>

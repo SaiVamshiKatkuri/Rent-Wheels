@@ -1,0 +1,108 @@
+{% include 'head.html' %}
+<div class="bg-main-3">
+    <div>.</div>
+
+    <div class="card p-20 w-25  mt-70 ml-100">
+
+        <form action="customer_login_action" method="post">
+            <div id="loginForm">
+                <h1 class="text-center white">Customer Login</h1>
+                <div>
+                    <div class="">Email</div>
+                    <div>
+                        <input class="form-input p-10px" type="text" name="email" placeholder="Email" required>
+                    </div>
+                </div>
+                <div class="mt-10 white">
+                    <div>Password</div>
+                    <input type="password" class="form-input p-10px" name="password" placeholder="Password" required>
+                </div>
+                <button class="btn h6" type="submit">Login</button>
+                <label class="white">Don't Have an account?</label>
+                <a class="under-line link-2" href="javascript:void(0);" onclick="toggleForm()">
+                    <h3 class="ml-200 fade-in white">Register Now</h3>
+                </a>
+            </div>
+        </form>
+
+        <form id="registrationForm" action="customer_registration_action" method="POST" style="display: none;">
+            <div class="white h2 text-center">Customer Registration</div>
+            <div class="first_name white input-box mt-10">
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name" class="form-input p-5px" placeholder="Enter Your First Name" required>
+            </div>
+            <div class="last_name white input-box mt-10">
+                <label for="last_name">Last Name</label>
+                <input type="text" id="last_name" name="last_name" class="form-input p-5px" placeholder="Enter Your Last Name" required>
+            </div>
+            <div class="email white input-box mt-10">
+                <label for="email_1">Email</label>
+                <input type="email" id="email_1" name="email_1" class="form-input p-5px" placeholder="Enter Email" required>
+            </div>
+            <div class="password white input-box mt-10">
+                <label for="password_1">Password</label>
+                <input type="password" id="password_1" name="password_1" class="form-input p-5px" placeholder="Enter Password" required>
+            </div>
+            <div class="phone white input-box mt-10">
+                <label for="phone">Phone</label>
+                <input type="number" id="phone" name="phone" class="form-input p-5px" placeholder="Enter Phone Number" required>
+            </div>
+            <div class="state white input-box mt-10">
+                <label for="state">State</label>
+                <select id="state" name="state" class="form-input p-5px" required>
+                    <option value="" disabled selected>Select State</option>
+                    <option value="Kansas">Kansas</option>
+                    <option value="Missouri">Missouri</option>
+                    <option value="New York">New York</option>
+                    <option value="California">California</option>
+                </select>
+            </div>
+
+            <div class="city white input-box mt-10">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" class="form-input p-5px" placeholder="Enter City" required>
+            </div>
+            <div class="address white input-box mt-10">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" class="form-input p-5px" placeholder="Enter Address" required>
+            </div>
+            <div class="zip_code white input-box white mt-10">
+                <label for="zip_code">Zip Code</label>
+                <input type="text" id="zip_code" name="zip_code" class="form-input p-5px" placeholder="Enter Zip Code" required>
+            </div>
+            <div class="license_number white input-box white mt-10">
+                <label for="license_number">Driver License</label>
+                <input type="text" id="license_number" name="license_number" class="form-input p-5px" placeholder="Enter License Number" required>
+            </div>
+            <div class="form-group">
+                <label>Location</label>
+                <select required  class="w-100 mt-20 form-input" name="location_id">
+                    <option value=" ">Choose Location</option>
+                    {% for location in locations %}
+                        <option value="{{location['_id']}}">{{location['location_name']}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn h6">REGISTER</button>
+            <a class="under-line" href="javascript:void(0);" onclick="toggleForm()">
+                <h3 class="ml-200 white fade-in">Back to Login</h3>
+            </a>
+        </form>
+    </div>
+</div>
+
+<script>
+    function toggleForm() {
+        const loginForm = document.getElementById('loginForm');
+        const registrationForm = document.getElementById('registrationForm');
+
+        // Toggle visibility
+        if (loginForm.style.display === 'none') {
+            loginForm.style.display = 'block';
+            registrationForm.style.display = 'none';
+        } else {
+            loginForm.style.display = 'none';
+            registrationForm.style.display = 'block';
+        }
+    }
+</script>

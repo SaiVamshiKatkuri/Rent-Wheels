@@ -1,0 +1,19 @@
+{% include 'ahead.html' %}
+<body>
+    <div class="container">
+        <h1 class="heading">Add/View Locations</h1>
+        <div class="">
+            <form action="add_location_action">
+                <div class="row space-around">
+                    <div class="middle ml-400"><input type="text" name="location_name" class="form-input" placeholder="Enter Location"></div>
+                    <div><button class="add-button">Add Location</button></div>
+                </div>
+            </form>
+        </div>
+        <div class="location-list">
+            {% for location in locations %}
+                <div class="location-item">Location: {{location['location_name']}}</div>
+            {% endfor %}
+        </div>
+    </div>
+</body>

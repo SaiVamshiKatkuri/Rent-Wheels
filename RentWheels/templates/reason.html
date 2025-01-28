@@ -1,0 +1,112 @@
+{% include 'chead.html' %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reject Reason</title>
+    <style>
+        /* Included CSS from your provided code */
+
+        body {
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #1a1a1a; /* Dark grey */
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); /* Red glow */
+            animation: fadeIn 1.5s ease-in-out; /* Animation */
+        }
+
+        .heading {
+            text-align: center;
+            color: #ff0000; /* Red for headings */
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            animation: slideIn 2s ease-in-out; /* Slide-in effect */
+        }
+
+        label {
+            color: #ff0000;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            margin-top: 10px;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        .submit-reason-btn {
+            display: block;
+            width: 70%;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: pulse 2s infinite;
+        }
+
+        .submit-reason-btn:hover {
+            background-color: #e60000;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateX(-100%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="heading">Provide Reason for Rejection</h2>
+        <form action="/submit_reject_reason">
+            <input type="hidden" name="booking_id" value="{{booking_id}}">
+
+            <label for="reason">Rejection Reason:</label>
+            <textarea id="reason" name="reason" rows="5" placeholder="Enter reason for rejection..." required></textarea>
+
+            <button type="submit" class="submit-reason-btn">Submit Reason</button>
+        </form>
+    </div>
+</body>
+
+

@@ -1,0 +1,88 @@
+{% include 'cu_head.html' %}
+<body>
+    <form action="view_book_vehicles">
+        <div class="row space-around">
+<!--            <div class="form-group w-20 ml-50">-->
+<!--                <label>Car Owners</label>-->
+<!--                <select required class="w-100 mt-20 form-input" name="car_owner_id">-->
+<!--                    <option value="">Choose Car Owners</option>-->
+<!--                    {% for car_owner in car_owners %}-->
+<!--                        <option value="{{car_owner['_id']}}">{{car_owner['first_name']}}</option>-->
+<!--                    {% endfor %}-->
+<!--                </select>-->
+<!--            </div>-->
+            <div class='mt-30'>
+                <div><label>Vehicle type /  Model</label></div>
+                <input type="text" id="searchInput" name="searchInput" placeholder="Search by Vehicle Type, VIN, or Model">
+            </div>
+<!--            <div><button type="submit" class="btn ml-50 mt-30 animated-button">Search</button></div>-->
+        </div>
+    </form>
+
+    <h1 class="heading">Available Cars</h1>
+    <div class="row space-around">
+        {% for car in cars %}
+                                        {% set location = get_location_by_id(car['location_id'])%}
+
+            {% if session['role'] == "customer" %}
+                {% if car['status'] == "Approved" %}
+                    <div class="card w-20 vehicle-card"
+                         data-type="{{ car.vehicle_type | lower }}"
+                         data-vin="{{ car.vin_number | lower }}"
+                         data-model="{{ car.model | lower }}">
+                        <div class="cars-grid">
+                            <div class="car-card">
+                                <img src="../static/added_cars/{{car['image']}}" alt="Car Image" class="car-image">
+                                <div class="p-10">
+                                <h2>{{ car.vehicle_name }}</h2>
+                                <p><strong>Vehicle Type:</strong> {{ car.vehicle_type }}</p>
+                                <h2>Location : {{ location.location_name }}</h2>
+                                <p><strong>VIN:</strong> {{ car.vin_number }}</p>
+                                <p><strong>Make:</strong> {{ car.make }}</p>
+                                <p><strong>Model:</strong> {{ car.model }}</p>
+                                <p><strong>Year:</strong> {{ car.year }}</p>
+                                <p><strong>Rent per Day:</strong> ${{ car.rent_per_day }}</p>
+                                <p><strong>EV / Gas Levels:</strong> {{ car.ev_gas_levels }}</p>
+                                <p><strong>Insurance per Day:</strong> ${{ car.insurance }}</p>
+                                <p><strong>Security Deposit:</strong> ${{ car.security_deposit }}</p>
+                                <form action="book_cars">
+                                    <input type="hidden" name="vehicle_id" value="{{car['_id']}}">
+                                    <input type="hidden" name="rent_per_day" value="{{car['rent_per_day']}}">
+                                    <input type="hidden" name="insurance_amount" value="{{car['insurance']}}">
+                                    <input type="hidden" name="ev_gas_levels" value="{{car['ev_gas_levels']}}">
+                                    <input type="hidden" name="car_owner_id" value="{{car['car_owner_id']}}">
+                                    <button class="add-button w-50">Book Car</button>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <script>
+        document.getElementById("searchInput").addEventListener("input", function() {
+            const filter = this.value.toLowerCase();
+            const vehicles = document.querySelectorAll(".vehicle-card");
+
+            vehicles.forEach(vehicle => {
+                const type = vehicle.getAttribute("data-type");
+                const vin = vehicle.getAttribute("data-vin");
+                const model = vehicle.getAttribute("data-model");
+
+                // Check if the filter matches any of the fields
+                if (
+                    type.includes(filter) ||
+                    vin.includes(filter) ||
+                    model.includes(filter)
+                ) {
+                    vehicle.style.display = ""; // Show vehicle
+                } else {
+                    vehicle.style.display = "none"; // Hide vehicle
+                }
+            });
+        });
+    </script>
+</body>

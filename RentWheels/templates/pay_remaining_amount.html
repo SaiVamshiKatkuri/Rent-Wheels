@@ -1,0 +1,42 @@
+{% include 'chead.html' %}
+
+<body>
+    <div class="container ml-600 mt-50">
+        <h2>Make a Payment</h2><br>
+        <form action="payment_remaining_action">
+            <input type="hidden" value="{{total_payment2}}" name="amount">
+            <input type="hidden" value="{{booking_id}}" name="booking_id">
+
+            <div>Remaining Amount: ${{amount}}+ Extra charges : $ {{extra_charges}}</div>
+
+            <div class="input-group">
+                <label for="payment_type">Payment Type</label>
+                <select id="payment_type" name="payment_type" >
+                    <option value="Credit Card" {% if payment['payment_type']=='Credit Card'%} selected {% endif%}>Credit Card</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="card_number">Card Number</label>
+                <input type="text" id="card_number" value="{{payment['card_number']}}" name="card_number"  placeholder="Enter card number" >
+            </div>
+
+            <div class="input-group">
+                <label for="card_holder_name">Card Holder Name</label>
+                <input type="text" id="card_holder_name" name="card_holder_name" value="{{payment['card_holder_name']}}" placeholder="Enter card holder name" >
+            </div>
+
+            <div class="input-group">
+                <label for="expiry_date">Expiry Date</label>
+                <input type="text" id="expiry_date" name="expiry_date" placeholder="Example 20/24"  value="{{payment['expiry_date']}}">
+            </div>
+
+            <div class="input-group">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" name="cvv" pattern="\d{3}" maxlength="3" placeholder="CVV" value="{{payment['cvv']}}">
+            </div>
+
+            <button type="submit" class="add-button">Submit Payment</button>
+        </form>
+    </div>
+</body>

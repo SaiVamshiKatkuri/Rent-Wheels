@@ -1,0 +1,73 @@
+{% include 'chead.html' %}
+<body>
+    <div class="card w-50 mt-100 ml-400 p-20" id="registrationForm">
+        <h1 class="heading">Add New Vehicle</h1>
+        <form action="/add_vehicle_actions" method="POST" enctype="multipart/form-data">
+             <div class="input-group">
+                <label for="make">Make</label>
+                <input type="text" id="make" name="make" required>
+            </div>
+            <div class="input-group">
+                <label for="model">Model</label>
+                <input type="text" id="model" name="model" required>
+            </div>
+            <div class="input-group">
+                <label for="vehicle_name">Vehicle Name</label>
+                <input type="text" id="vehicle_name" name="vehicle_name" required>
+            </div>
+
+            <div class="input-group">
+                <label for="vin_number">VIN Number</label>
+                <input type="text" id="vin_number" name="vin_number" required>
+            </div>
+            <div class="input-group">
+                <label>Location</label>
+                <select   name="location_id" class="w-100 mt-20 form-input">
+                    {% set location = get_location_by_id(car_owner['location_id'])%}
+                        <option value="{{location['_id']}}">{{location['location_name']}}</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="year">Year</label>
+                <input type="number" id="year" name="year" required>
+            </div>
+            <div class="input-group">
+                <label for="image">Image</label>
+                <input type="file" id="image" name="image" required>
+            </div>
+
+            <div class="input-group">
+                <label for="security_deposit">Security Deposit</label>
+                <input type="number" id="security_deposit" name="security_deposit" required>
+            </div>
+            <div class="input-group">
+                <label for="rent_per_day">Rent per Day</label>
+                <input type="number" id="rent_per_day" name="rent_per_day" required>
+            </div>
+            <div class="input-group">
+                <label for="ev_gas_levels">EV/Gas Levels</label>
+                <input type="text" id="ev_gas_levels" name="ev_gas_levels" required>
+            </div>
+            <div class="input-group">
+                <label for="color">Color</label>
+                <input type="text" id="color" name="color" required>
+            </div>
+            <div class="input-group">
+                <label for="car_mileage">Car Mileage</label>
+                <input type="text" id="car_mileage" name="car_mileage" required>
+            </div>
+            <div class="input-group">
+                <label for="insurance">Insurance</label>
+                <input type="text" id="insurance" name="insurance" required>
+            </div>
+            <div class="input-group">
+                <label for="mile_per_price">Mile per Price</label>
+                <input type="number" id="mile_per_price" name="mile_per_price" required>
+            </div>
+
+            <button type="submit" class="add-button">Add Vehicle</button>
+        </form>
+    </div>
+</body>
+</html>
