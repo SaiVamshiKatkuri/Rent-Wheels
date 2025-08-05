@@ -23,7 +23,7 @@ Welcome to **Rent-Wheels**, your go-to car rental platform that simplifies booki
 - Bootstrap  
 
 ### ⚙️ Backend:
-- PHP  
+- Flask  
 - MySQL  
 
 ---
